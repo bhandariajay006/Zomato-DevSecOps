@@ -38,13 +38,13 @@ pipeline{
                 sh "npm install"
             }
         }
-        stage('OWASP FS SCAN') {
+        stage('OWASP Dependency Check') {
             steps {
                 dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DC'
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
-        stage('TRIVY FS SCAN') {
+        stage('TRIVY FS Scan') {
             steps {
                 sh "trivy fs . > trivyfs.txt"
             }
@@ -60,7 +60,7 @@ pipeline{
                 }
             }
         }
-        stage("TRIVY"){
+        stage("TRIVY Image Scan"){
             steps{
                 sh "trivy image bhandariajay006/zomato:latest > trivy.txt" 
             }
